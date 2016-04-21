@@ -1,0 +1,52 @@
+---
+title: 问题日志
+tags: 新建,问题日志
+grammar_cjkRuby: true
+---
+
+# 4月20日
+## 大小写转换
+1. VS  选中 CTRL+U 小写
+2. VS 选中  CTRL+SHIFT+U 大写
+
+# 4月21日
+## CRM 查询有数据集
+1. OptionSetValue值类型 Values内是整数
+```cs
+EntityCollection ec= orgService.RetrieveMultiple(new QueryExpression
+                    {
+                        EntityName = "new_zsdquot_head",
+                        ColumnSet = new ColumnSet("new_name"),
+                        Criteria = new FilterExpression
+                        {
+                            Conditions = { 
+                                new ConditionExpression{
+                                    AttributeName="new_finaceyear",
+                                    Operator=ConditionOperator.Equal,
+                                    Values={int.Parse(dr["GJAHR"].ToString())}
+                                },
+                               new ConditionExpression{
+                                    AttributeName="new_fiscalmonth",
+                                    Operator=ConditionOperator.Equal,
+                                    Values={int.Parse(dr["MONAT"].ToString())}
+                                },
+                                new ConditionExpression{
+                                    AttributeName="new_bjnum",
+                                    Operator=ConditionOperator.Equal,
+                                    Values={dr["BJNUM"].ToString()}
+                                },
+                                new ConditionExpression{
+                                    AttributeName="new_kunnrcode",
+                                    Operator=ConditionOperator.Equal,
+                                    Values={dr["KUNNR"].ToString().Trim().PadLeft(10,'0')}
+                                }
+                            }
+                        }
+                    });
+```
+2. ss
+
+
+  
+  
+  
