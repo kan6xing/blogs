@@ -1,0 +1,130 @@
+---
+title: 2016-5-20sql  调用http
+tags: 新建,模板,小书匠
+grammar_cjkRuby: true
+---
+
+# SQL
+## 开启SQL SERVER 通讯配置
+``` sql
+sp_configure 'show advanced options', 1;
+
+GO
+
+RECONFIGURE;
+
+GO
+
+sp_configure 'Ole Automation Procedures', 1;
+
+GO
+
+RECONFIGURE;
+
+GO
+
+EXEC sp_configure 'Ole Automation Procedures';
+
+GO
+```
+## http函数
+``` sql
+/*
+
+参数说明?
+
+@URL=http请求地址
+
+@status=状态代?
+
+@returnText=返回?
+
+@object=对象令牌
+
+@errSrc=错误源编?
+
+*/
+
+CREATE PROCEDURE P_GET_HttpRequestData(
+
+	@URL varchar(500),
+
+	@status int=0 OUT,
+
+	@returnText varchar(2000)='' OUT
+
+)
+
+AS
+
+BEGIN
+
+	DECLARE @object int,
+
+	@errSrc int
+
+	/*初始化对*/
+
+	EXEC @status = SP_OACreate 'Msxml2.ServerXMLHTTP.3.0', @object OUT
+
+	IF @status <> 0
+
+	BEGIN
+
+	 EXEC SP_OAGetErrorInfo @object, @errSrc OUT, @returnText OUT
+
+	 RETURN
+
+	END
+
+
+
+
+	/*创建链接*/
+
+	EXEC @status= SP_OAMethod @object,'open',NULL,'GET',@URL
+
+	IF @status <> 0
+
+	BEGIN
+
+	 EXEC SP_OAGetErrorInfo @object, @errSrc OUT, @returnText OUT
+
+	 RETURN
+
+	END
+
+	EXEC @status=SP_OAMethod @object,'setRequestHeader','Content-Type','application/x-www-form-urlencoded'
+
+	/*发起请求*/
+
+	EXEC @status= SP_OAMethod @object,'send',NULL 
+
+	IF @status <> 0 
+
+	BEGIN 
+
+	 EXEC SP_OAGetErrorInfo @object, @errSrc OUT, @returnText OUT
+
+	 RETURN
+
+	END
+
+     
+
+	/*获取返回*/
+
+	EXEC @status= SP_OAGetProperty @object,'responseText',@returnText OUT
+
+	IF @status <> 0 
+
+	BEGIN 
+
+	 EXEC SP_OAGetErrorInfo @object, @errSrc OUT, @returnText OUT
+
+	 RETURN
+
+	END
+
+END;
+```
