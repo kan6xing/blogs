@@ -5,6 +5,7 @@ grammar_cjkRuby: true
 ---
 
 # SQL
+* 网络地址：http://zhouyou.jun.blog.163.com/blog/static/1009921892013215224897/
 ## 开启SQL SERVER 通讯配置
 ``` sql
 sp_configure 'show advanced options', 1;
