@@ -129,3 +129,30 @@ BEGIN
 
 END;
 ```
+## 测试
+``` sql
+
+----测试
+
+CREATE PROCEDURE IPCC_WEBSERVICE_PACKID(@parametersStr VARCHAR(255),@outText VARCHAR(255) OUT)
+
+AS
+
+BEGIN
+
+  DECLARE @returnText VARCHAR(500)
+
+  DECLARE @status int
+
+  DECLARE @urlStr VARCHAR(255)
+
+  SET @urlStr = 'http://172.17.5.14:9090/df/sendDataToIVR.action?parametersStr='+@parametersStr+'&ifaceType=4';
+
+EXEC P_GET_HttpRequestData    @urlStr, @status OUTPUT, @returnText   OUTPUT;
+
+   SET @outText = @returnText;
+
+   print @outText ; ---打印
+
+END;
+```
