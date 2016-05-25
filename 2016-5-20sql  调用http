@@ -156,3 +156,5 @@ EXEC P_GET_HttpRequestData    @urlStr, @status OUTPUT, @returnText   OUTPUT;
 
 END;
 ```
+
+http://blog.csdn.net/eventys/article/details/7449297
